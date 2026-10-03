@@ -1,35 +1,27 @@
-export const addStudent = async student => {
-    // TODO: Implement addStudent, return true if student was added successfully and false otherwise
+import * as repo from "../repository/studentRepository.js";
 
-};
+export const addStudent = async student => repo.createStudent(student);
 
-export const findStudent = async id => {
-    // TODO: Implement findStudent, return student if found and null otherwise
-};
+export const findStudent = async id => await repo.findStudentById(+id);
 
-export const deleteStudent = async id => {
-    // TODO: Implement deleteStudent, return true if student was deleted successfully and false otherwise
-};
+export const deleteStudent = async (id) => await repo.deleteStudent(+id);
 
-export const updateStudent = async (id , data) => {
-    // TODO: Implement updateStudent, return true if student was updated successfully and false otherwise
-};
+export const updateStudent = async (id , data) => await repo.updateStudent(+id, data);
 
-export const addScore = async (id, exam, score) =>{
-    // TODO: Implement addScore
-};
+export const addScore = async (id, exam, score) => await repo.updateStudent(+id, {[`scores.${exam}`]: score});
 
-export const findStudentsByName = async name => {
-    // TODO: Implement findStudentsByName
-};
+export const findStudentsByName = async name => await repo.findStudentsByName(name);
 
-export const countStudentsByName = async names => {
-    // TODO: Implement countStudentsByName
-};
+export const countStudentsByNames = async names =>  {
+    names = Array.isArray(names) ? names : [names];
+    return await repo.countStudentsByNames(names);
+}
 
-export const findStudentsByMinScore = async (exam, minScore)  => {
-    // TODO: Implement findStudentsByMinScore
-};
+export const findStudentsByMinScore = async (exam, minScore)  => await repo.findStudentsByMinScore(exam, +minScore);
 
+function renameId(student){
+    // TODO HW2 return student with renamed id (_id -> id)
+    // Use this in function where need rename id
+}
 
 
