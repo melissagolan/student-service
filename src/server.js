@@ -1,10 +1,8 @@
 import  express from 'express';
 import studentRoutes  from "./routes/studentRoutes.js";
-import {MongoClient} from "mongodb";
-import {init} from "./repository/studentRepository.js";
+import mongoose from "mongoose";
 
 const port = process.env.PORT || 3000;
-const client = new MongoClient(process.env.MONGO_URI);
 const app = express();
 
 app.use(express.json());
@@ -17,10 +15,12 @@ app.use((req, res) =>{
 
 async function startServer() {
     try{
-        await client.connect();
-        const database = client.db(process.env.DB_NAME);
-        await init(database);
-        app.listen(port, () => console.log(`Server running on port ${port}. Press Ctrl+C to stop.`))
+        await mongoose.connect(process.env.MONGO_URI,{
+            dbName: process.env.DB_NAME
+        });
+        console.log('Connected to mongoDB')
+
+         app.listen(port, () => console.log(`Server running on port ${port}. Press Ctrl+C to stop.`))
     }catch (e){
         console.log('Failed to connect to database', e);
     }
